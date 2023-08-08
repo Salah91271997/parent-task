@@ -16,6 +16,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { authReducer } from './store/reducers/auth.reducer';
 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/interceptor/auth.interceptor';
+
 @NgModule({
   declarations: [AppComponent, LoginComponent],
   imports: [
@@ -24,12 +27,19 @@ import { authReducer } from './store/reducers/auth.reducer';
     ReactiveFormsModule,
     ButtonModule,
     MessagesModule,
+    HttpClientModule,
     MessageModule,
     InputTextModule,
     StoreModule.forRoot({ auth: authReducer }),
     EffectsModule.forRoot([]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
