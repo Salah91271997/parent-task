@@ -18,9 +18,12 @@ import { authReducer } from './store/reducers/auth.reducer';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/interceptor/auth.interceptor';
+import { UsersInfoComponent } from './components/users-info/users-info.component';
+import { userReducer } from './store/reducers/users.reducer';
+import { UserEffects } from './store/effects/users.effects';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, UsersInfoComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,8 +33,8 @@ import { AuthInterceptor } from './services/interceptor/auth.interceptor';
     HttpClientModule,
     MessageModule,
     InputTextModule,
-    StoreModule.forRoot({ auth: authReducer }),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot({ auth: authReducer, users: userReducer }),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [
     {

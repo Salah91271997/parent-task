@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { AuthServiceService } from 'src/app/services/user/auth-service.service';
+import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { login } from 'src/app/store/actions/auth.actions';
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,13 +40,17 @@ export class LoginComponent implements OnInit {
     const { username, password } = this.loginForm.value;
 
     // Perform authentication and dispatch the login action
-    this.authService.login(username, password).subscribe(
-      (data) => {
+    this.authService.login(username, password).subscribe({
+      next: (data) => {
+        console.log('data', data);
+
         this.store.dispatch(login({ username, password }));
+        // route to UsersInfoComponent component
+        this.router.navigate(['/users']);
       },
-      (error) => {
+      error: (error) => {
         this.error = 'Invalid credentials';
-      }
-    );
+      },
+    });
   }
 }
