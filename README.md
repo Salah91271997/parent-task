@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.6.
 
+# Task
+
+Api calls response does ot match any payload so i did my best mock it internally
+
+live : https://salah91271997.github.io/parent-task/login
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
