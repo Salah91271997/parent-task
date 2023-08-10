@@ -18,9 +18,9 @@ export class LoginComponent implements OnInit {
   error!: string;
   constructor(
     private formBuilder: FormBuilder,
-    private store: Store,
+    public store: Store,
     private authService: AuthServiceService,
-    private router: Router
+    public router: Router
   ) {}
 
   ngOnInit(): void {
