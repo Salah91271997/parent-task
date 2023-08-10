@@ -24,6 +24,7 @@ export class UsersInfoComponent implements OnInit {
   users$!: Observable<UserResponse>;
   usersSubscription!: Subscription;
   users: User[] = [];
+  tableUsers: User[] = [];
   selectedUser!: User;
   // filters
   idFilter = '';
@@ -46,7 +47,9 @@ export class UsersInfoComponent implements OnInit {
     // getting data from the store
     this.users$ = this.store.select(selectUsers);
     this.usersSubscription = this.users$.subscribe((users) => {
-      this.users = [...users.data]; // Create a new mutable array
+      this.users = users.data;
+      // Create a new mutable array
+      this.tableUsers = [...this.users];
     });
 
     // create new user form
