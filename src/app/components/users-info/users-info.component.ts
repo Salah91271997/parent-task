@@ -49,7 +49,7 @@ export class UsersInfoComponent implements OnInit {
     this.usersSubscription = this.users$.subscribe((users) => {
       this.users = users.data;
       // Create a new mutable array
-      this.tableUsers = [...this.users];
+      this.tableUsers = this.users;
     });
 
     // create new user form
