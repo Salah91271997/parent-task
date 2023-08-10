@@ -1,1 +1,255 @@
-<p>users-info works!</p>
+<div class="container">
+  <p-card>
+    <div class="d-flex justify-content-between align-content-center mb-2">
+      <h2>Users Information</h2>
+      <button
+        pButton
+        type="button"
+        label="Add User"
+        class="p-button-success"
+        (click)="showAddUserDialog()"
+      ></button>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-3 mb-2">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="ID"
+          [(ngModel)]="idFilter"
+          (input)="filterTable()"
+        />
+      </div>
+      <div class="col-12 col-md-3 mb-2">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Email"
+          [(ngModel)]="emailFilter"
+          (input)="filterTable()"
+        />
+      </div>
+      <div class="col-12 col-md-3 mb-2">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="First Name"
+          [(ngModel)]="firstNameFilter"
+          (input)="filterTable()"
+        />
+      </div>
+      <div class="col-12 col-md-3 mb-2">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Last Name"
+          [(ngModel)]="lastNameFilter"
+          (input)="filterTable()"
+        />
+      </div>
+    </div>
+    <p-table
+      [value]="users"
+      [paginator]="true"
+      [rows]="10"
+      [rowHover]="true"
+      [responsive]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">
+            ID
+            <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">
+            Email
+            <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="first_name">
+            First Name
+            <p-sortIcon field="first_name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="last_name">
+            Last Name
+            <p-sortIcon field="last_name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="job">
+            job
+            <p-sortIcon field="job"></p-sortIcon>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user?.job }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              label="Remove"
+              class="p-button-danger"
+              (click)="removeUser(user.id)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Update"
+              class="p-button-warning mx-2"
+              (click)="showUserInfoDialog(user, true)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Info"
+              class="p-button-info"
+              (click)="showUserInfoDialog(user, false)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
+
+<p-dialog
+  header="Add New User"
+  [(visible)]="addUser"
+  [style]="{ 'max-width': '120rem', width: '30rem' }"
+  [modal]="true"
+>
+  <form [formGroup]="newUser" (ngSubmit)="addNewUser()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        formControlName="name"
+      />
+      <small
+        *ngIf="
+          newUser.get('name')?.invalid &&
+          (newUser.get('name')?.dirty || newUser.get('name')?.touched)
+        "
+        class="form-text text-danger"
+      >
+        Name is required.
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="job">Job</label>
+      <input id="job" type="text" class="form-control" formControlName="job" />
+      <small
+        *ngIf="
+          newUser.get('job')?.invalid &&
+          (newUser.get('job')?.dirty || newUser.get('job')?.touched)
+        "
+        class="form-text text-danger"
+      >
+        Job is required.
+      </small>
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-secondary mr-2" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary mx-2"
+        [disabled]="!newUser.valid"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</p-dialog>
+<p-dialog header="User Details" [(visible)]="showUserInfo">
+  <form [formGroup]="userForm">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText formControlName="email" />
+        <small
+          class="p-error"
+          *ngIf="
+            userForm.controls['email'].invalid &&
+            userForm.controls['email'].touched
+          "
+        >
+          Please enter a valid email.
+        </small>
+      </div>
+      <div class="p-field">
+        <label for="first_name">First Name</label>
+        <input
+          id="first_name"
+          type="text"
+          pInputText
+          formControlName="first_name"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            userForm.controls['first_name'].invalid &&
+            userForm.controls['first_name'].touched
+          "
+        >
+          Please enter a first name.
+        </small>
+      </div>
+      <div class="p-field">
+        <label for="last_name">Last Name</label>
+        <input
+          id="last_name"
+          type="text"
+          pInputText
+          formControlName="last_name"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            userForm.controls['last_name'].invalid &&
+            userForm.controls['last_name'].touched
+          "
+        >
+          Please enter a last name.
+        </small>
+      </div>
+      <div class="p-field">
+        <label for="job">Job</label>
+        <input id="job" type="text" pInputText formControlName="job" />
+        <small
+          class="p-error"
+          *ngIf="
+            userForm.controls['job'].invalid && userForm.controls['job'].touched
+          "
+        >
+          Please enter a job.
+        </small>
+      </div>
+    </div>
+    <p-footer
+      *ngIf="userUpdate"
+      class="d-flex justify-content-around align-content-center mt-3"
+    >
+      <button
+        pButton
+        type="button"
+        label="Cancel"
+        (click)="(showUserInfo == false)"
+      ></button>
+      <button
+        pButton
+        type="submit"
+        label="Save"
+        [disabled]="userForm.invalid"
+        (click)="saveUser()"
+      ></button>
+    </p-footer>
+  </form>
+</p-dialog>

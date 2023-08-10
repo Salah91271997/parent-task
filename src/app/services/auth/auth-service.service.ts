@@ -12,6 +12,10 @@ export class AuthServiceService {
   getAuthToken(): string {
     return this.authToken;
   }
+  // create a function hasToken() to check if the user has a token
+  hasToken(): boolean {
+    return !!localStorage.getItem('authToken');
+  }
 
   login(username: string, password: string): Observable<any> {
     const body = { username, password };

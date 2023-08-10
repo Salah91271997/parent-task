@@ -8,7 +8,7 @@ import {
   loadUsersSuccess,
   loadUsersFailure,
 } from '../actions/users.actions';
-import { User } from '../../interfaces/user.interface';
+import { User, UserResponse } from '../../interfaces/user.interface';
 
 @Injectable()
 export class UserEffects {
@@ -16,7 +16,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(loadUsers),
       switchMap(() =>
-        this.http.get<User[]>('https://reqres.in/api/users?page/2').pipe(
+        this.http.get<UserResponse>('https://reqres.in/api/users?page/2').pipe(
           map((users) => loadUsersSuccess({ users })),
           catchError((error) => of(loadUsersFailure({ error })))
         )
