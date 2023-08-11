@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User, UserResponse } from 'src/app/interfaces/user.interface';
 import { Observable, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://reqres.in/api/users';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +17,7 @@ export class UserService {
   }
 
   addUser(name: string, job: string): Observable<UserResponse> {
-    return this.http.post<UserResponse>(this.apiUrl, { name, job });
+    return this.http.post<UserResponse>(`${this.apiUrl}/users`, { name, job });
   }
 
   removeUser(id: number): Observable<any> {
