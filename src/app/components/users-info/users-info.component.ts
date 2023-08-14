@@ -129,6 +129,7 @@ export class UsersInfoComponent implements OnInit {
   showUserInfoDialog(user: User, update: boolean) {
     this.selectedUser = user;
     this.showUserInfo = true;
+
     // if update is true then set all the form values to the user data and if not also do the same but lock all the input fields
     if (update) {
       this.userForm.setValue({
@@ -137,6 +138,7 @@ export class UsersInfoComponent implements OnInit {
         last_name: user.last_name,
         job: '',
       });
+      this.userForm.enable();
       this.userUpdate = true;
     } else {
       this.userForm.setValue({
