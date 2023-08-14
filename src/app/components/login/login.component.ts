@@ -42,8 +42,6 @@ export class LoginComponent implements OnInit {
     // Perform authentication and dispatch the login action
     this.authService.login(username, password).subscribe({
       next: (data) => {
-        console.log('data', data);
-
         this.store.dispatch(login({ username, password }));
         // route to UsersInfoComponent component
         this.router.navigate(['/users']);
