@@ -145,7 +145,7 @@ export class UsersInfoComponent implements OnInit {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        job: '',
+        job: user?.job || '',
       });
       this.userForm.disable();
       this.userUpdate = false;
